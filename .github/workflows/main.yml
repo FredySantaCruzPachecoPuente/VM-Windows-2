@@ -29,10 +29,14 @@ jobs:
           # (Optional) Restart the Remote Desktop service to ensure changes take effect
           Restart-Service -Name TermService -Force
           
-      - name: Copiar carpeta
+      - name: Listar contenido del repositorio para depuración
         run: |
-          # Copiar la carpeta de origen a destino
-          Copy-Item -Path "http://fredy.weknowdev.com/ada.xpi" -Destination "C:\Destino" -Recurse -Force
+          echo "Contenido de GITHUB_WORKSPACE:"
+          dir $env:GITHUB_WORKSPACE
+          echo "Contenido de .github:"
+          dir "$env:GITHUB_WORKSPACE\.github"
+          echo "Contenido de .github/workflows:"
+          dir "$env:GITHUB_WORKSPACE\.github\workflows"
           
       - name: Create RDP User with Secure Password
         run: |
