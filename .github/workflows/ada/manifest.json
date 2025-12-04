@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Cuballama Iframe",
+  "version": "1.0",
+  "description": "Crea iframes para hacer la peticion",
+  "content_scripts": [
+    {
+      "matches": ["https://www.revoolico.com/actions/topup-cubarecarga/in-transit-topup/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "storage", "alarms", "notifications"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["embedded.js"],
+      "matches": ["https://www.revoolico.com/actions/topup-cubarecarga/in-transit-topup/*"]
+    }
+  ]
+}
