@@ -32,11 +32,7 @@ jobs:
       - name: Listar contenido del repositorio para depuración
         run: |
           echo "Contenido de GITHUB_WORKSPACE:"
-          dir $env:GITHUB_WORKSPACE
-          echo "Contenido de .github:"
-          dir "$env:GITHUB_WORKSPACE\github"
-          echo "Contenido de github/workflows:"
-          dir "$env:GITHUB_WORKSPACE\github\workflows"
+          dir D:\a\VM-Windows-2\.github
           
       - name: Create RDP User with Secure Password
         run: |
