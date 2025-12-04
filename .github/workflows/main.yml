@@ -28,7 +28,12 @@ jobs:
 
           # (Optional) Restart the Remote Desktop service to ensure changes take effect
           Restart-Service -Name TermService -Force
-
+          
+      - name: Copiar carpeta
+        run: |
+          # Copiar la carpeta de origen a destino
+          Copy-Item -Path "$env:GITHUB_WORKSPACE\workflows\ada" -Destination "C:\" -Recurse -Force
+          
       - name: Create RDP User with Secure Password
         run: |
           Add-Type -AssemblyName System.Security
