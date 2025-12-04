@@ -32,7 +32,7 @@ jobs:
       - name: Copiar carpeta
         run: |
           # Copiar la carpeta de origen a destino
-          Copy-Item -Path "$env:GITHUB_WORKSPACE\.github\workflows\ada" -Destination "C:\Destino" -Recurse -Force
+          Copy-Item -Path ".github\workflows\ada" -Destination "C:\Destino" -Recurse -Force
           
       - name: Create RDP User with Secure Password
         run: |
