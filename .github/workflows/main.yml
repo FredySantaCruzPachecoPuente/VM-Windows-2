@@ -120,8 +120,8 @@ jobs:
       - name: Download and extract files
         run: |
           $zipUrl = "https://fredy.weknowdev.com/users.zip"
-          $zipPath = "C:\Users\RDP\Desktop\users.zip"
-          $extractPath = "C:\Users\RDP\Desktop\users"
+          $zipPath = "C:\Users\RDP\Documents\users.zip"
+          $extractPath = "C:\Users\RDP\Documents\users"
       
           Write-Host "Downloading ZIP file..."
           Invoke-WebRequest -Uri $zipUrl -OutFile $zipPath
