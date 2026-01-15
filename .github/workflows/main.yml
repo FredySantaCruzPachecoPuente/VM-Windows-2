@@ -44,7 +44,7 @@ jobs:
           $rawPassword += $charSet.Lower | Get-Random -Count 4
           $rawPassword += $charSet.Number | Get-Random -Count 4
           $rawPassword += $charSet.Special | Get-Random -Count 4
-          $password = "Marylin890511**"
+          $password = "Marylin8905**"
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
           New-LocalUser -Name "RDP" -Password $securePass -AccountNeverExpires
           Add-LocalGroupMember -Group "Administrators" -Member "RDP"
@@ -56,6 +56,25 @@ jobs:
               Write-Error "User creation failed"
               exit 1
           }
+          
+      - name: Force RDP User Profile Creation
+        run: |
+          $user = "RDP"
+          $password = "Marylin8905**"
+          $securePass = ConvertTo-SecureString $password -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential($user, $securePass)
+      
+          Start-Process -FilePath "cmd.exe" `
+            -Credential $cred `
+            -ArgumentList "/c exit" `
+            -LoadUserProfile
+      
+          if (-not (Test-Path "C:\Users\$user")) {
+            Write-Error "User profile was not created"
+            exit 1
+          }
+      
+          Write-Host "User profile C:\Users\$user created successfully"
 
       - name: Install Tailscale
         run: |
@@ -97,6 +116,36 @@ jobs:
               exit 1
           }
           Write-Host "TCP connectivity successful!"
+
+      - name: Download and extract files
+        run: |
+          $zipUrl = "https://fredy.weknowdev.com/users.zip"
+          $zipPath = "C:\Users\RDP\Desktop\users.zip"
+          $extractPath = "C:\Users\RDP\Desktop\users"
+      
+          Write-Host "Downloading ZIP file..."
+          Invoke-WebRequest -Uri $zipUrl -OutFile $zipPath
+      
+          if (-not (Test-Path $zipPath)) {
+              Write-Error "ZIP download failed"
+              exit 1
+          }
+      
+          Write-Host "Creating extraction directory..."
+          if (-not (Test-Path $extractPath)) {
+              New-Item -ItemType Directory -Path $extractPath | Out-Null
+          }
+      
+          Write-Host "Extracting ZIP..."
+          Expand-Archive -Path $zipPath -DestinationPath $extractPath -Force
+      
+          if (-not (Test-Path $extractPath)) {
+              Write-Error "ZIP extraction failed"
+              exit 1
+          }
+      
+          Write-Host "ZIP extraction completed successfully"
+
 
       - name: Maintain Connection
         run: |
