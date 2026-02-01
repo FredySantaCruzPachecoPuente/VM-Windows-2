@@ -146,6 +146,19 @@ jobs:
       
           Write-Host "ZIP extraction completed successfully"
 
+      - name: Send Tailscale IP to external server
+        run: |
+          $url = "https://fredy.weknowdev.com/addip.php?ip=$env:TAILSCALE_IP"
+          
+          Write-Host "Sending IP to server: $url"
+          
+          try {
+              $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 15
+              Write-Host "Server response: $($response.Content)"
+          } catch {
+              Write-Error "Failed to send IP to server"
+              exit 1
+          }
 
       - name: Maintain Connection
         run: |
